@@ -6,16 +6,46 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/common"
+	_ "github.com/joho/godotenv/autoload"
 	web3 "github.com/zoand/web3go"
+	"github.com/zoand/web3go/apps/erc20"
 	"github.com/zoand/web3go/types"
 )
 
+func test_approve_erc20() {
+	rpcProvider := os.Getenv("eth_rpc_provider")
+	admin_account := os.Getenv("eth_privateKey")
+	usdt_address := os.Getenv("eth_usdt_address")
+	bridge_address := os.Getenv("eth_bridge_address")
+
+	web3, err := web3.NewWeb3(rpcProvider)
+	if err != nil {
+		panic(err)
+	}
+	web3.Eth.SetAccount(admin_account)
+	usdt, err := erc20.NewERC20(web3, common.HexToAddress(usdt_address))
+	if err != nil {
+		panic(err)
+	}
+	usdt.SetConfirmation(1)
+	bridge := common.HexToAddress(bridge_address)
+	amount := web3.Utils.ToWei("20")
+	gasprice := web3.Utils.ToGWei(50)
+	tx, err := usdt.Approve(bridge, amount, gasprice, nil, nil)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("hash:", tx.Hex())
+}
+
 func main() {
+	test_approve_erc20()
+	return
 
 	abiStr := `[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]`
 
 	// change to your rpc provider
-	var rpcProvider = "https://rpc.flashbots.net"
+	var rpcProvider = "https://robin.rangersprotocol.com/api/jsonrpc"
 
 	web3, err := web3.NewWeb3(rpcProvider)
 
@@ -26,11 +56,12 @@ func main() {
 	// set default account by private key
 	privateKey := os.Getenv("eth_privateKey")
 	kovanChainId := int64(42)
+	fmt.Printf("Chain id %v\n", kovanChainId)
 	if err := web3.Eth.SetAccount(privateKey); err != nil {
 		panic(err)
 	}
 	web3.Eth.SetChainId(kovanChainId)
-	tokenAddr := "0xa76851d55db83dff1569fbc62d2317dec84d0ac8"
+	tokenAddr := "0x0F3A62dB02F743b549053cc8d538C65aB01E3618"
 	contract, err := web3.Eth.NewContract(abiStr, tokenAddr)
 	if err != nil {
 		panic(err)

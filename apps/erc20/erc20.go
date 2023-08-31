@@ -100,9 +100,9 @@ func (e *ERC20) BalanceOf(owner common.Address) (*big.Int, error) {
 	return allow, nil
 }
 
-func (e *ERC20) Approve(spender common.Address, limit, gasPrice, gasTipCap, gasFeeCap *big.Int) (common.Hash, error) {
+func (e *ERC20) Approve(spender common.Address, amount, gasPrice, gasTipCap, gasFeeCap *big.Int) (common.Hash, error) {
 
-	code, err := e.contr.EncodeABI("approve", spender, limit)
+	code, err := e.contr.EncodeABI("approve", spender, amount)
 	if err != nil {
 		return common.Hash{}, err
 	}
@@ -202,7 +202,7 @@ func (e *ERC20) SyncSendRawTransactionForTx(
 				break
 			}
 		}
-		// fmt.Println("send tx done")
+		fmt.Println("send tx done")
 	}()
 
 	select {
