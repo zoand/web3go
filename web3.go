@@ -29,21 +29,6 @@ func NewWeb3WithProxy(provider, proxy string) (*Web3, error) {
 		return nil, err
 	}
 	e := eth.NewEth(c)
-
-	// providerLowerStr := strings.ToLower(provider)
-
-	// if strings.Contains(providerLowerStr, "ropsten") {
-	// 	e.SetChainId(3)
-	// } else if strings.Contains(providerLowerStr, "kovan") {
-	// 	e.SetChainId(42)
-	// } else if strings.Contains(providerLowerStr, "rinkeby") {
-	// 	e.SetChainId(4)
-	// } else if strings.Contains(providerLowerStr, "goerli") {
-	// 	e.SetChainId(5)
-	// } else {
-	// 	e.SetChainId(1)
-	// }
-
 	u := utils.NewUtils()
 	w := &Web3{
 		Eth:   e,
@@ -51,6 +36,7 @@ func NewWeb3WithProxy(provider, proxy string) (*Web3, error) {
 		c:     c,
 		url:   provider,
 	}
+	//auto query chain id & set chain id
 	chainID := w.GetChainId(w.url)
 	fmt.Println("chainID:", chainID)
 	e.SetChainId(chainID.Int64())
