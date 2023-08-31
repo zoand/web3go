@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/chenzhijie/go-web3/rpc/transport"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	eTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/valyala/fasthttp"
+	"github.com/zoand/web3go/rpc/transport"
 )
 
 type FlashBot struct {

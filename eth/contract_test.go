@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/chenzhijie/go-web3/rpc"
-	"github.com/chenzhijie/go-web3/types"
-	"github.com/chenzhijie/go-web3/utils"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/zoand/web3go/rpc"
+	"github.com/zoand/web3go/types"
+	"github.com/zoand/web3go/utils"
 )
 
 func TestContractCall(t *testing.T) {

@@ -6,8 +6,8 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/chenzhijie/go-web3"
 	"github.com/ethereum/go-ethereum/crypto"
+	web3 "github.com/zoand/web3go"
 )
 
 func main() {

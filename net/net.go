@@ -1,8 +1,8 @@
 package net
 
 import (
-	"github.com/chenzhijie/go-web3/rpc"
-	"github.com/chenzhijie/go-web3/utils"
+	"github.com/zoand/web3go/rpc"
+	"github.com/zoand/web3go/utils"
 )
 
 type Net struct {

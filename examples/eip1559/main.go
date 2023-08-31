@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/chenzhijie/go-web3"
-	"github.com/chenzhijie/go-web3/utils"
+	web3 "github.com/zoand/web3go"
+	"github.com/zoand/web3go/utils"
 )
 
 func main() {

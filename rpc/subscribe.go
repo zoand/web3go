@@ -3,7 +3,7 @@ package rpc
 import (
 	"fmt"
 
-	"github.com/chenzhijie/go-web3/rpc/transport"
+	"github.com/zoand/web3go/rpc/transport"
 )
 
 func (c *Client) SubscriptionEnabled() bool {

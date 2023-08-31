@@ -5,9 +5,9 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/chenzhijie/go-web3"
-	"github.com/chenzhijie/go-web3/types"
 	"github.com/ethereum/go-ethereum/common"
+	web3 "github.com/zoand/web3go"
+	"github.com/zoand/web3go/types"
 )
 
 func main() {

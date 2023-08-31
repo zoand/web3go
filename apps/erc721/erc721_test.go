@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/chenzhijie/go-web3"
 	"github.com/ethereum/go-ethereum/common"
+	web3 "github.com/zoand/web3go"
 )
 
 func TestIsApprovedForAll(t *testing.T) {
