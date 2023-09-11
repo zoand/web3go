@@ -12,11 +12,20 @@ import (
 	"github.com/zoand/web3go/types"
 )
 
+/*
+{
+    "BSC": "0xB82318f4cB5D04936A12e91148230064B19e03f8",
+    "ETH": "0xFe4d81A83deF8ba75E5B9670C562D124ceDb3e94",
+    "MAP": "0xFe4d81A83deF8ba75E5B9670C562D124ceDb3e94",
+    "Rangers": "0x9c1CbFE5328DFB1733d59a7652D0A49228c7E12C"
+}
+*/
+
 func test_approve_erc20() {
 	rpcProvider := os.Getenv("eth_rpc_provider")
 	admin_account := os.Getenv("eth_privateKey")
-	usdt_address := os.Getenv("eth_usdt_address")
-	bridge_address := os.Getenv("eth_bridge_address")
+	usdt_address := os.Getenv("eth_usdt_rpg_address")
+	bridge_address := os.Getenv("eth_bridge_rpg_address")
 
 	web3, err := web3.NewWeb3(rpcProvider)
 	if err != nil {
@@ -29,7 +38,7 @@ func test_approve_erc20() {
 	}
 	usdt.SetConfirmation(1)
 	bridge := common.HexToAddress(bridge_address)
-	amount := web3.Utils.ToWei("20")
+	amount := web3.Utils.ToWei("1")
 	gasprice := web3.Utils.ToGWei(50)
 	tx, err := usdt.Approve(bridge, amount, gasprice, nil, nil)
 	if err != nil {
