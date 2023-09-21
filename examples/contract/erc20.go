@@ -21,7 +21,7 @@ import (
 }
 */
 
-func test_approve_erc20() {
+func test_approve_erc20_rpg() {
 	rpcProvider := os.Getenv("eth_rpc_provider")
 	admin_account := os.Getenv("eth_privateKey")
 	usdt_address := os.Getenv("eth_usdt_rpg_address")
@@ -47,8 +47,34 @@ func test_approve_erc20() {
 	fmt.Println("hash:", tx.Hex())
 }
 
+func test_approve_erc20_plg() {
+	rpcProvider := os.Getenv("eth_rpc_provider")
+	admin_account := os.Getenv("eth_privateKey")
+	usdt_address := os.Getenv("eth_usdt_plg_address")
+	bridge_address := os.Getenv("eth_bridge_plg_address")
+
+	web3, err := web3.NewWeb3(rpcProvider)
+	if err != nil {
+		panic(err)
+	}
+	web3.Eth.SetAccount(admin_account)
+	usdt, err := erc20.NewERC20(web3, common.HexToAddress(usdt_address))
+	if err != nil {
+		panic(err)
+	}
+	usdt.SetConfirmation(1)
+	bridge := common.HexToAddress(bridge_address)
+	amount := web3.Utils.ToDecimals(1, 6)
+	gasprice := web3.Utils.ToGWei(160)
+	tx, err := usdt.Approve(bridge, amount, gasprice, nil, nil)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("hash:", tx.Hex())
+}
+
 func main() {
-	test_approve_erc20()
+	test_approve_erc20_plg()
 	return
 
 	abiStr := `[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]`
